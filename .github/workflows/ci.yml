@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - 'factory/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: CI=true npm test
+
+      - name: Build
+        env:
+          REACT_APP_AUTH0_DOMAIN: ci-placeholder.auth0.com
+          REACT_APP_AUTH0_CLIENT_ID: ci-placeholder-client-id
+        run: npm run build
+
+      - name: Verify no API secrets in client bundle
+        run: |
+          if grep -rE 'OPENAI_API_KEY|sk-[a-zA-Z0-9]{20,}|api\.openai\.com' build/static/js/; then
+            echo 'Secret leak detected in client bundle'
+            exit 1
+          fi
+          echo 'Client bundle secret scan passed'
+
+      - name: Smoke test chat API server
+        run: |
+          node server/index.js &
+          SERVER_PID=$!
+          trap "kill $SERVER_PID" EXIT
+
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:3001/api/health > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+
+          curl -sf http://localhost:3001/api/health | grep -q '"ok":true'
+
+          STATUS=$(curl -s -o /dev/null -w '%{http_code}' -X POST http://localhost:3001/api/chat \
+            -H 'Content-Type: application/json' \
+            -d '{"messages":[{"role":"user","content":"hello"}]}')
+          test "$STATUS" = "500"
+
+          STATUS=$(curl -s -o /dev/null -w '%{http_code}' -X POST http://localhost:3001/api/chat \
+            -H 'Content-Type: application/json' \
+            -d '{"messages":[]}')
+          test "$STATUS" = "400"
+
+          echo 'Chat API smoke tests passed'

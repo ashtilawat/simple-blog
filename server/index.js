@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const { AUTHOR_PROMPT } = require('./authorPrompt');
 
 const app = express();
@@ -115,6 +116,19 @@ app.post('/api/chat', async (req, res) => {
     });
   }
 });
+
+if (process.env.NODE_ENV === 'production') {
+  const buildPath = path.join(__dirname, '..', 'build');
+  app.use(express.static(buildPath));
+
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api/')) {
+      return next();
+    }
+
+    res.sendFile(path.join(buildPath, 'index.html'));
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Chat API server listening on port ${PORT}`);
