@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Divider } from '@chakra-ui/react';
 import { JobPost } from './JobPost';
 import { Search } from './Search';
+import { DynamicContentList } from './DynamicContentList';
 
 const listings = [
   {
@@ -42,6 +43,7 @@ export const Content = () => {
   return (
     <Box className="content">
       <Divider />
+      <DynamicContentList />
       <Search />
       {listings.map((job) => (
         <JobPost
