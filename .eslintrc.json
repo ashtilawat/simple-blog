@@ -15,5 +15,13 @@
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["src/index.js"],
+      "env": {
+        "node": true
+      }
+    }
+  ]
 }
