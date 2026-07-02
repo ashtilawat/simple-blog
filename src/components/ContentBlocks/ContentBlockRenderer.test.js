@@ -45,7 +45,7 @@ describe('ContentBlocksRenderer', () => {
   it('renders blocks in CMS-defined order (AC-008)', () => {
     const blocks = [
       { id: '1', type: 'text', order: 0, payload: { text: 'First text block' } },
-      { id: '2', type: 'video', order: 1, payload: { url: 'https://example.com/video.mp4' } },
+      { id: '2', type: 'video', order: 1, payload: { url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' } },
       {
         id: '3',
         type: 'html',
@@ -67,7 +67,7 @@ describe('ContentBlocksRenderer', () => {
     const blocks = [
       { id: 'html', type: 'html', order: 2, payload: { html: '<p>HTML section</p>' } },
       { id: 'text', type: 'text', order: 0, payload: { text: 'Text section' } },
-      { id: 'video', type: 'video', order: 1, payload: { url: 'https://example.com/a.mp4' } }
+      { id: 'video', type: 'video', order: 1, payload: { url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' } }
     ];
 
     renderWithChakra(<ContentBlocksRenderer blocks={blocks} />);
