@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - 'factory/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    env:
+      REACT_APP_AUTH0_DOMAIN: ci-placeholder.auth0.com
+      REACT_APP_AUTH0_CLIENT_ID: ci-placeholder-client-id
+      REACT_APP_AIRTABLE_API_KEY: ci-placeholder-airtable-key
+      REACT_APP_AIRTABLE_BASE_ID: appCiPlaceholderBase
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: CI=true npm test -- --watchAll=false
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify build output
+        run: |
+          test -f build/index.html
+          test -d build/static/js
+          echo 'Production build artifacts present'
+
+      - name: Verify no committed secrets in client bundle
+        run: |
+          if grep -rE 'sk-[a-zA-Z0-9]{20,}|OPENAI_API_KEY|api\.openai\.com' build/static/js/; then
+            echo 'Unexpected secret pattern detected in client bundle'
+            exit 1
+          fi
+          echo 'Client bundle secret scan passed'
