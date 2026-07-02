@@ -1,9 +1,9 @@
 import React from 'react';
 import { Stack } from '@chakra-ui/react';
 import { BLOCK_TYPES, sortBlocksByOrder } from '../../types/content';
-import { TextBlock } from './blocks/TextBlock';
-import { HtmlBlock } from './blocks/HtmlBlock';
-import { VideoBlock } from './blocks/VideoBlock';
+import { TextBlock } from './TextBlock';
+import { HtmlBlock } from './HtmlBlock';
+import { VideoBlock } from './VideoBlock';
 import { UnknownBlock } from './UnknownBlock';
 
 const BLOCK_COMPONENTS = {
