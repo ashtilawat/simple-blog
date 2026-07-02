@@ -102,6 +102,74 @@
   align-items: center;
 }
 
+/** html block styles **/
+
+.html-block {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--chakra-colors-gray-200);
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.html-block h1,
+.html-block h2,
+.html-block h3,
+.html-block h4,
+.html-block h5,
+.html-block h6 {
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+  color: var(--chakra-colors-gray-100);
+}
+
+.html-block h2 {
+  font-size: 1.25rem;
+}
+
+.html-block p {
+  margin-bottom: 1em;
+}
+
+.html-block a {
+  color: var(--chakra-colors-teal-300);
+  text-decoration: underline;
+}
+
+.html-block a:hover {
+  color: var(--chakra-colors-teal-200);
+}
+
+.html-block ul,
+.html-block ol {
+  margin-bottom: 1em;
+  padding-left: 1.5em;
+}
+
+.html-block li {
+  margin-bottom: 0.35em;
+}
+
+.html-block blockquote {
+  border-left: 3px solid var(--chakra-colors-teal-400);
+  margin: 1em 0;
+  padding-left: 1em;
+  color: var(--chakra-colors-gray-300);
+}
+
+.html-block img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+.html-block--fallback {
+  background: var(--chakra-colors-whiteAlpha-50);
+}
+
 /** footer styles **/
 
 .footer {

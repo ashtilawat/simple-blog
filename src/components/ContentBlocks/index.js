@@ -1,2 +1,3 @@
 export { ContentBlockRenderer, ContentBlocksRenderer } from './ContentBlockRenderer';
 export { UnknownBlock } from './UnknownBlock';
+export { HtmlBlock } from './HtmlBlock';
