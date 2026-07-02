@@ -74,3 +74,21 @@ export async function fetchPublishedContentItems() {
     throw new ContentFetchError('Failed to fetch content from Airtable.', { cause: error });
   }
 }
+
+/**
+ * Loads a single published content item by id or slug.
+ * @param {string} id
+ * @returns {Promise<import('../content/types').ContentItem>}
+ */
+export async function fetchContentItemById(id) {
+  const items = await fetchPublishedContentItems();
+  const item = items.find(
+    (entry) => entry.id === id || (entry.slug && entry.slug === id)
+  );
+
+  if (!item) {
+    throw new ContentFetchError(`Content item "${id}" was not found.`);
+  }
+
+  return item;
+}

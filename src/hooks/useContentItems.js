@@ -12,7 +12,8 @@ import { getContentFetchErrorMessage } from '../services/contentErrors';
  *   items: ContentItem[],
  *   loading: boolean,
  *   error: string | null,
- *   retry: () => Promise<void>
+ *   retry: () => Promise<void>,
+ *   reload: () => Promise<void>
  * }}
  */
 export function useContentItems() {
@@ -39,5 +40,5 @@ export function useContentItems() {
     load();
   }, [load]);
 
-  return { items, loading, error, retry: load };
+  return { items, loading, error, retry: load, reload: load };
 }
