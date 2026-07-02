@@ -1,24 +1,23 @@
 import './styles/App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { Header } from './components/Header/Header';
-import { Content } from './components/Content/Content';
-import { ContentList } from './components/Content/ContentList';
-import { ContentDetail } from './components/Content/ContentDetail';
 import { Footer } from './components/Footer/Footer';
+import { ContentList } from './pages/ContentList';
+import { ContentDetail } from './pages/ContentDetail';
+import { JobsBoard } from './pages/JobsBoard';
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Header />
-        <Routes>
-          <Route path="/" element={<Content />} />
-          <Route path="/content" element={<ContentList />} />
-          <Route path="/content/:id" element={<ContentDetail />} />
-        </Routes>
-        <Footer />
-      </div>
-    </BrowserRouter>
+    <div className="App">
+      <Header />
+      <Routes>
+        <Route path="/" element={<Navigate to="/content" replace />} />
+        <Route path="/content" element={<ContentList />} />
+        <Route path="/content/:id" element={<ContentDetail />} />
+        <Route path="/jobs" element={<JobsBoard />} />
+      </Routes>
+      <Footer />
+    </div>
   );
 }
 
