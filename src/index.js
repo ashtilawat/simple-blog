@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import '@fontsource/space-mono/700.css';
 import { extendTheme, ChakraProvider, ColorModeScript } from '@chakra-ui/react';
@@ -25,7 +26,9 @@ root.render(
     <ChakraProvider resetCSS={true} theme={theme}>
       <React.StrictMode>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </React.StrictMode>
     </ChakraProvider>
   </Auth0Provider>
